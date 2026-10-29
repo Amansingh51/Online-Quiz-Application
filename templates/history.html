@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Result history — Quizly{% endblock %}
+{% block content %}
+<section class="list-page">
+  <p class="eyebrow">A LOOK BACK</p>
+  <div class="section-heading"><div><h1>Recent attempts</h1><p class="hero-description">The latest 50 quiz results are shown here.</p></div><span class="heading-mark">◷</span></div>
+  {% if attempts %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>PLAYER</th><th>RESULT</th><th>TIME</th><th>COMPLETED</th></tr></thead>
+      <tbody>
+        {% for attempt in attempts %}
+        <tr>
+          <td class="player-name"><a href="{{ url_for('result', attempt_id=attempt.id) }}">{{ attempt.participant_name }}</a></td>
+          <td><span class="score-pill">{{ attempt.score }} / {{ attempt.total }}</span></td>
+          <td>{{ (attempt.duration_seconds // 60) }}:{{ "%02d"|format(attempt.duration_seconds % 60) }}</td>
+          <td>{{ attempt.created_at[:16].replace("T", " ") }} UTC</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state"><span>◷</span><h2>Your story starts here.</h2><p>Once you complete a quiz, your result will show up in this list.</p><a class="button button-primary" href="{{ url_for('index') }}">Take the quiz →</a></div>
+  {% endif %}
+</section>
+{% endblock %}

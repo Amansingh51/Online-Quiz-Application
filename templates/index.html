@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Quizly — Test what you know{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="status-dot"></span> YOUR NEXT BRAIN BREAK</p>
+    <h1>Curious how much<br>you <span>really know?</span></h1>
+    <p class="hero-description">Take a quick quiz, trust your instincts, and see where you land. No pressure — just a little friendly challenge.</p>
+    <form class="start-form" action="{{ url_for('start_quiz') }}" method="post">
+      <label class="sr-only" for="name">Your name</label>
+      <input id="name" name="name" type="text" maxlength="40" placeholder="What should we call you?" autocomplete="name" required>
+      <button class="button button-primary" type="submit">Start the quiz <span aria-hidden="true">→</span></button>
+    </form>
+    <div class="quiz-facts">
+      <span><span class="fact-icon">◷</span> {{ duration }} minutes</span>
+      <span><span class="fact-icon">▤</span> {{ question_count }} questions</span>
+      <span><span class="fact-icon">✳</span> Just for fun</span>
+    </div>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <div class="art-orbit orbit-one"></div>
+    <div class="art-orbit orbit-two"></div>
+    <div class="art-card">
+      <div class="art-card-top"><span class="art-label">QUICK QUIZ</span><span class="art-menu">•••</span></div>
+      <div class="art-spark">✳</div>
+      <div class="art-question">Your mind is<br>about to get a<br><span>workout.</span></div>
+      <div class="art-options"><i></i><i></i><i></i></div>
+      <div class="art-card-bottom"><span>LET'S GO</span><span>↗</span></div>
+    </div>
+    <div class="floating-note note-top"><span>✦</span> Stay curious</div>
+    <div class="floating-note note-bottom"><span>✓</span> You've got this</div>
+  </div>
+</section>
+<section class="welcome-strip">
+  <div><span class="strip-number">01</span><span>Answer at your own pace</span></div>
+  <div><span class="strip-number">02</span><span>Get your score instantly</span></div>
+  <div><span class="strip-number">03</span><span>See how you rank</span></div>
+</section>
+{% endblock %}

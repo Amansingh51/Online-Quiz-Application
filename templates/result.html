@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Your result — Quizly{% endblock %}
+{% block content %}
+<section class="result-hero">
+  <div class="score-badge"><span>{{ attempt.score }}</span><small>OUT OF {{ attempt.total }}</small></div>
+  <div>
+    <p class="eyebrow">QUIZ COMPLETE</p>
+    <h1>Nice work, {{ attempt.participant_name }}.</h1>
+    <p class="hero-description">You got <strong>{{ attempt.score }} of {{ attempt.total }}</strong> questions right in {{ (attempt.duration_seconds // 60) }}m {{ "%02d"|format(attempt.duration_seconds % 60) }}s.</p>
+    <div class="result-actions">
+      <a class="button button-primary" href="{{ url_for('index') }}">Try again <span aria-hidden="true">→</span></a>
+      <a class="button button-secondary" href="{{ url_for('leaderboard') }}">View leaderboard</a>
+    </div>
+  </div>
+</section>
+<section class="review-section">
+  <div class="section-heading"><div><p class="eyebrow">THE ANSWERS</p><h2>Here's how you did</h2></div></div>
+  <div class="review-list">
+    {% for item in details %}
+    <article class="review-item {{ 'review-correct' if item.correct else 'review-incorrect' }}">
+      <span class="review-symbol" aria-label="{{ 'Correct' if item.correct else 'Incorrect' }}">{{ '✓' if item.correct else '×' }}</span>
+      <div><h3>{{ item.question }}</h3>
+        {% if item.selected %}<p>Your answer: <strong>{{ item.selected }}</strong></p>{% else %}<p>You didn't select an answer.</p>{% endif %}
+        {% if not item.correct %}<p>Correct answer: <strong>{{ item.answer }}</strong></p>{% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

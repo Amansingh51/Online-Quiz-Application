@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Quiz in progress — Quizly{% endblock %}
+{% block head %}
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    let remaining = {{ remaining|tojson }};
+    const timer = document.getElementById("timer");
+    const form = document.getElementById("quiz-form");
+    const renderTimer = () => {
+      const minutes = Math.floor(remaining / 60).toString().padStart(2, "0");
+      const seconds = (remaining % 60).toString().padStart(2, "0");
+      timer.textContent = `${minutes}:${seconds}`;
+      if (remaining <= 30) timer.classList.add("timer-warning");
+      if (remaining <= 0) {
+        form.requestSubmit();
+        return;
+      }
+      remaining -= 1;
+      window.setTimeout(renderTimer, 1000);
+    };
+    renderTimer();
+  });
+</script>
+{% endblock %}
+{% block content %}
+<section class="quiz-heading">
+  <div>
+    <p class="eyebrow">YOU'RE DOING GREAT, {{ session.participant_name|upper }}</p>
+    <h1>Take your best guess.</h1>
+  </div>
+  <div class="timer-card" aria-live="polite">
+    <span class="timer-label">TIME LEFT</span>
+    <strong id="timer">05:00</strong>
+  </div>
+</section>
+<form id="quiz-form" action="{{ url_for('submit_quiz') }}" method="post">
+  <div class="question-list">
+    {% for question in questions %}
+    <fieldset class="question-card">
+      <legend><span class="question-number">{{ "%02d"|format(loop.index) }}</span>{{ question.text }}</legend>
+      <div class="option-grid">
+        {% for option in question.options %}
+        <label class="option">
+          <input type="radio" name="{{ question.id }}" value="{{ option }}">
+          <span class="option-marker">{{ "ABCD"[loop.index0] }}</span>
+          <span>{{ option }}</span>
+        </label>
+        {% endfor %}
+      </div>
+    </fieldset>
+    {% endfor %}
+  </div>
+  <div class="submit-row">
+    <p>Your progress is saved when you submit.</p>
+    <button class="button button-primary" type="submit">Finish quiz <span aria-hidden="true">→</span></button>
+  </div>
+</form>
+{% endblock %}

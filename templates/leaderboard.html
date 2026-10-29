@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard — Quizly{% endblock %}
+{% block content %}
+<section class="list-page">
+  <p class="eyebrow">THE FRIENDLY COMPETITION</p>
+  <div class="section-heading"><div><h1>Leaderboard</h1><p class="hero-description">The highest scores, with faster finishes breaking ties.</p></div><span class="heading-mark">✳</span></div>
+  {% if attempts %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>RANK</th><th>PLAYER</th><th>SCORE</th><th>TIME</th></tr></thead>
+      <tbody>
+        {% for attempt in attempts %}
+        <tr>
+          <td><span class="rank-number">{{ "%02d"|format(loop.index) }}</span></td>
+          <td class="player-name">{{ attempt.participant_name }}</td>
+          <td><span class="score-pill">{{ attempt.score }} / {{ attempt.total }}</span></td>
+          <td>{{ (attempt.duration_seconds // 60) }}:{{ "%02d"|format(attempt.duration_seconds % 60) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state"><span>✳</span><h2>It's wide open.</h2><p>Be the first to take the quiz and claim the top spot.</p><a class="button button-primary" href="{{ url_for('index') }}">Start the quiz →</a></div>
+  {% endif %}
+</section>
+{% endblock %}
