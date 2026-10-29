@@ -2,6 +2,8 @@
 
 A beginner-friendly multiple-choice quiz built with Python, Flask, HTML, CSS, JavaScript, and SQLite.
 
+See [PROJECT_REPORT.md](./PROJECT_REPORT.md) for the college mini-project report template and technical documentation.
+
 ## Features
 
 - Ten multiple-choice questions with four options each
